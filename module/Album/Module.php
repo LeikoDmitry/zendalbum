@@ -6,11 +6,19 @@ namespace Album;
  */
 class Module
 {
+    /**
+     * Метод подгрузки файла конфигурации
+     * @return mixed
+     */
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
     }
 
+    /**
+     * Метод подгрузки исходных файлов конфигурации
+     * @return array
+     */
     public function getAutoloaderConfig()
     {
         return array(
