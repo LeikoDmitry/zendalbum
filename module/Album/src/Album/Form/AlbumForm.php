@@ -20,12 +20,21 @@ class AlbumForm extends Form
             'options' => array(
                 'label' => 'Название',
             ),
+
+            'attributes' => array(
+            ),
+
         ));
         $this->add(array(
             'name' => 'artist',
             'type' => 'Text',
             'options' => array(
                 'label' => 'Артист',
+            ),
+            'attributes' => array(
+
+
+
             ),
         ));
         $this->add(array(
@@ -34,6 +43,7 @@ class AlbumForm extends Form
             'attributes' => array(
                 'value' => 'Добавить',
                 'id' => 'submitbutton',
+
             ),
         ));
     }

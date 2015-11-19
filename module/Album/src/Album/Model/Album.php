@@ -36,6 +36,12 @@ class Album implements InputFilterAwareInterface
         */
     }
 
+    public function getArrayCopy()
+    {
+        return get_object_vars($this);
+    }
+
+
     public function setInputFilter(InputFilterInterface $inputFilterInterface)
     {
         throw new \Exception("Not used");

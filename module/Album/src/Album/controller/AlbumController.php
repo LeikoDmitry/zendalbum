@@ -34,7 +34,7 @@ class AlbumController extends AbstractActionController
     }
 
     /**
-     * Дествие добавлени
+     * Действие добавления
      */
     public function addAction()
     {
@@ -60,6 +60,38 @@ class AlbumController extends AbstractActionController
      */
     public function editAction()
     {
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            return $this->redirect()->toRoute('album', array(
+                'action' => 'add'
+            ));
+        }
+
+        try{
+            $album = $this->getAlbumTable()->getAlbum($id);
+        }catch (\Exception $e){
+            return $this->redirect()->toRoute('album', array(
+                'action' => 'index'
+            ));
+        }
+
+        $form  = new AlbumForm();
+        $form->bind($album);
+        $request = $this->getRequest();
+        if($request->isPost()){
+            $form->setInputFilter($album->getInputFilter());
+            $form->setData($request->getPost());
+
+            if($form->isValid()){
+                $this->getAlbumTable()->saveAlbum($album);
+                return $this->redirect()->toRoute('album');
+            }
+        }
+
+        return array(
+            'id' => $id,
+            'form' => $form,
+        );
     }
 
     /**
@@ -67,6 +99,28 @@ class AlbumController extends AbstractActionController
      */
     public function deleteAction()
     {
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if (!$id) {
+            return $this->redirect()->toRoute('album');
+        }
+
+        $request = $this->getRequest();
+        if($request->isPost()){
+            $del = $request->getPost('del', 'Нет');
+
+            if($del == "Да"){
+                $id = (int)$request->getPost('id');
+                $this->getAlbumTable()->deleteAlbum($id);
+
+            }
+
+            return $this->redirect()->toRoute('album');
+        }
+
+        return array(
+            'id'    => $id,
+            'album' => $this->getAlbumTable()->getAlbum($id)
+        );
     }
 
 }
