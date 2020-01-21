@@ -1,2 +1,0 @@
-# zendalbum
-First zendframework application
